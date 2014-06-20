@@ -11,4 +11,11 @@ $collection->stop('test');
 $collection->start('test');
 usleep(1000000);
 $collection->stop('test');
-echo $collection->total('test');
+$collection->start('fast');
+$collection->stop('fast');
+foreach ($collection as $name => $timer) {
+    echo $name, "\n";
+    foreach ($timer->delta() as $value) {
+        echo $value, "\n";
+    }
+}

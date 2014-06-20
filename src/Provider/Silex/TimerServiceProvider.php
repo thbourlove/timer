@@ -5,7 +5,8 @@ class TimerServiceProvider
 {
     public function register(Application $app)
     {
-        $app['timer.collection'] = $app->share(function ($app) {
+        $app['timers'] = $app->share(function ($app) {
+            $timers = new Pimple();
             return new Collection();
         });
     }

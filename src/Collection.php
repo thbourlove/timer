@@ -1,26 +1,41 @@
 <?php
 namespace Eleme\Timer;
 
+use ArrayIterator;
 use IteratorAggregate;
 
 class Collection implements IteratorAggregate
 {
     private $collection = array();
 
+    private $namespace = null;
+
+    public function __construct($namespace = '')
+    {
+        $this->namespace = $namespace;
+    }
+
+    public function getNamespace()
+    {
+        return $this->namespace;
+    }
+
     public function get($name)
     {
-        if (empty($this->collection[$name])) {
+        $full = $this->full($name);
+        if (empty($this->collection[$full])) {
             throw new TimerException("timer $name is not exists.");
         }
-        return $this->collection[$name];
+        return $this->collection[$full];
     }
 
     public function start($name)
     {
-        if (empty($this->collection[$name])) {
-            $this->collection[$name] = new Timer();
+        $full = $this->full($name);
+        if (empty($this->collection[$full])) {
+            $this->collection[$full] = new Timer();
         }
-        $this->collection[$name]->start();
+        $this->collection[$full]->start();
     }
 
     public function stop($name)
@@ -28,23 +43,13 @@ class Collection implements IteratorAggregate
         $this->get($name)->stop();
     }
 
-    public function total($name)
-    {
-        return $this->get($name)->total();
-    }
-
-    public function count($name)
-    {
-        return $this->get($name)->count();
-    }
-
-    public function delta($name)
-    {
-        return $this->get($name)->delta();
-    }
-
     public function getIterator()
     {
         return new ArrayIterator($this->collection);
+    }
+
+    private function full($name)
+    {
+        return $this->namespace ? "{$this->namespace}.{$name}" : $name;
     }
 }

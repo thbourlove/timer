@@ -1,11 +1,6 @@
 {
     "name": "eleme/timer",
     "description": "PHP timer library",
-    "require-dev": {
-        "silex/silex": "~1.1",
-        "phpunit/phpunit": "~4.0",
-        "satooshi/php-coveralls": "dev-master"
-    },
     "license": "MIT",
     "authors": [
         {
@@ -15,6 +10,10 @@
     ],
     "require": {
         "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "silex/silex": "~1.1",
+        "phpunit/phpunit": "~4.0"
     },
     "autoload": {
         "psr-4": {
