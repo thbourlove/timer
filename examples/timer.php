@@ -4,7 +4,7 @@ use Eleme\Timer\Collection;
 
 require __DIR__.'/../vendor/autoload.php';
 
-$collection = new Collection();
+$collection = new Collection('namespace');
 $collection->start('test');
 usleep(500000);
 $collection->stop('test');

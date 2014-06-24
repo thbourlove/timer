@@ -1,13 +1,27 @@
 <?php
 namespace Eleme\Timer\Provider\Silex;
 
-class TimerServiceProvider
+use Pimple;
+use Silex\Application;
+use Silex\ServiceProviderInterface;
+use Eleme\Timer\Collection;
+
+class TimerServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['timers'] = $app->share(function ($app) {
-            $timers = new Pimple();
-            return new Collection();
+        $app['timer.collections'] = $app->share(function ($app) {
+            $collections = new Pimple();
+            foreach ($app['timers.options'] as $name => $option) {
+                $collections[$name] = $collections->share(function ($collections) use ($name) {
+                    return new Collection($name);
+                });
+            }
+            return new $collections;
         });
+    }
+
+    public function boot(Application $app)
+    {
     }
 }
