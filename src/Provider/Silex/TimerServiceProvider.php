@@ -13,11 +13,11 @@ class TimerServiceProvider implements ServiceProviderInterface
         $app['timer.collections'] = $app->share(function ($app) {
             $collections = new Pimple();
             foreach ($app['timer.options'] as $name => $option) {
-                $collections[$name] = $collections->share(function ($collections) use ($name) {
+                $collections[$name] = $collections->share(function ($collections) use ($option) {
                     return new Collection($option['namespace']);
                 });
             }
-            return new $collections;
+            return $collections;
         });
     }
 
